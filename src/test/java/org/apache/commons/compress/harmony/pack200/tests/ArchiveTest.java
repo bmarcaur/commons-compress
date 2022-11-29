@@ -296,6 +296,21 @@ public class ArchiveTest extends TestCase {
 		}
     }
 
+//     Test with an archive from Maven
+    public void testReproOfAsmErrorOnPack() throws Exception {
+                in = new JarFile(new File(Archive.class.getResource(
+                "/pack200/hw-module.jar")
+                .toURI()));
+        file = File.createTempFile("hw-module", ".pack");
+        file.deleteOnExit();
+        out = new FileOutputStream(file);
+        PackingOptions options = new PackingOptions();
+        options.setGzip(false);
+        new Archive(in, out, options).pack();
+        in.close();
+        out.close();
+    }
+
     private void compareJarEntries(JarFile jarFile, JarFile jarFile2) {
         Enumeration<JarEntry> entries = jarFile.entries();
         while (entries.hasMoreElements()) {
